@@ -1,0 +1,247 @@
+:root {
+  color: #1d2a28;
+  background: #f3efe6;
+  font-family: "Avenir Next", "Segoe UI", sans-serif;
+  line-height: 1.45;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+}
+
+button,
+.button {
+  border: 0;
+  border-radius: 8px;
+  background: #0f6e6e;
+  color: #fff;
+  padding: 0.65rem 1rem;
+  cursor: pointer;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+button.secondary,
+.button.secondary {
+  background: transparent;
+  color: #0f6e6e;
+  border: 1px solid #0f6e6e;
+}
+
+button.danger {
+  background: #8d3b32;
+}
+
+button:disabled {
+  opacity: 0.6;
+  cursor: default;
+}
+
+input,
+select,
+textarea {
+  width: 100%;
+  border: 1px solid #cfc6b8;
+  border-radius: 8px;
+  background: #fff;
+  padding: 0.65rem 0.75rem;
+}
+
+label {
+  display: grid;
+  gap: 0.35rem;
+  font-size: 0.92rem;
+}
+
+fieldset {
+  border: 1px solid #cfc6b8;
+  border-radius: 8px;
+  display: grid;
+  gap: 0.45rem;
+}
+
+fieldset label {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+fieldset input {
+  width: auto;
+}
+
+.app-shell {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.topbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.85rem 1.25rem;
+  background: #163331;
+  color: #f7f3ea;
+}
+
+.brand {
+  color: inherit;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  text-decoration: none;
+}
+
+.topbar-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.page {
+  width: min(920px, calc(100% - 2rem));
+  margin: 2rem auto;
+}
+
+.panel {
+  background: #fffdf8;
+  border: 1px solid #e3dccf;
+  border-radius: 16px;
+  padding: 1.25rem;
+}
+
+.stack {
+  display: grid;
+  gap: 0.9rem;
+}
+
+.row {
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.error {
+  color: #8d3b32;
+  margin: 0;
+}
+
+.note {
+  color: #5c675f;
+  margin: 0;
+}
+
+.warning {
+  background: #fff4d8;
+  border-radius: 8px;
+  padding: 0.75rem;
+}
+
+.auth-layout {
+  min-height: calc(100vh - 64px);
+  display: grid;
+  place-items: center;
+  padding: 1.5rem;
+}
+
+.auth-card {
+  width: min(440px, 100%);
+}
+
+h1,
+h2 {
+  font-family: Palatino, "Iowan Old Style", "Times New Roman", serif;
+  font-weight: 600;
+  margin: 0 0 0.4rem;
+}
+
+.filters {
+  display: grid;
+  grid-template-columns: 1.4fr 1fr auto;
+  gap: 0.75rem;
+  align-items: end;
+  padding: 0.75rem 1rem;
+  background: #fffdf8;
+  border-bottom: 1px solid #e3dccf;
+}
+
+.map-page {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+
+.map-canvas {
+  flex: 1;
+  min-height: 480px;
+}
+
+.leaflet-popup-content {
+  margin: 0.8rem 0.9rem;
+  width: 240px;
+}
+
+.popup-title {
+  margin: 0 0 0.25rem;
+  font-size: 1.05rem;
+}
+
+.popup-list {
+  margin: 0.4rem 0;
+  padding-left: 1.1rem;
+}
+
+.popup-form {
+  display: grid;
+  gap: 0.45rem;
+  margin-top: 0.6rem;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th,
+td {
+  text-align: left;
+  padding: 0.55rem 0.35rem;
+  border-bottom: 1px solid #eee6da;
+  vertical-align: top;
+}
+
+.review {
+  border-top: 1px solid #eee6da;
+  padding: 0.8rem 0;
+}
+
+.service-actions {
+  display: flex;
+  gap: 0.4rem;
+}
+
+@media (max-width: 720px) {
+  .filters {
+    grid-template-columns: 1fr;
+  }
+
+  .topbar {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+}

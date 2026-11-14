@@ -1,0 +1,105 @@
+{
+  "users" : [ {
+    "id" : "user-anna",
+    "email" : "user@demo.local",
+    "passwordHash" : "$2a$10$Zs3r0bwFUdsybTyXQ3Kuv.QdG138qGLgYZb8FLOT88eUi2ieOEwqe",
+    "role" : "USER",
+    "displayName" : "Анна Петрова"
+  }, {
+    "id" : "user-center",
+    "email" : "center@demo.local",
+    "passwordHash" : "$2a$10$Zs3r0bwFUdsybTyXQ3Kuv.QdG138qGLgYZb8FLOT88eUi2ieOEwqe",
+    "role" : "CLINIC",
+    "displayName" : "Демо Клиника Центр"
+  }, {
+    "id" : "user-north",
+    "email" : "north@demo.local",
+    "passwordHash" : "$2a$10$Zs3r0bwFUdsybTyXQ3Kuv.QdG138qGLgYZb8FLOT88eUi2ieOEwqe",
+    "role" : "CLINIC",
+    "displayName" : "Демо Клиника Север"
+  }, {
+    "id" : "user-south",
+    "email" : "south@demo.local",
+    "passwordHash" : "$2a$10$Zs3r0bwFUdsybTyXQ3Kuv.QdG138qGLgYZb8FLOT88eUi2ieOEwqe",
+    "role" : "CLINIC",
+    "displayName" : "Демо Клиника Юг"
+  } ],
+  "clinics" : [ {
+    "id" : "clinic-center",
+    "ownerUserId" : "user-center",
+    "name" : "Демо Клиника Центр",
+    "description" : "Терапия и гигиена в центре Москвы.",
+    "address" : "ул. Тверская, 12, Москва",
+    "latitude" : 55.757,
+    "longitude" : 37.614
+  }, {
+    "id" : "clinic-north",
+    "ownerUserId" : "user-north",
+    "name" : "Демо Клиника Север",
+    "description" : "Хирургия и гигиена на севере Москвы.",
+    "address" : "Ленинградский проспект, 36, Москва",
+    "latitude" : 55.789,
+    "longitude" : 37.558
+  }, {
+    "id" : "clinic-south",
+    "ownerUserId" : "user-south",
+    "name" : "Демо Клиника Юг",
+    "description" : "Терапия и имплантация на юге Москвы.",
+    "address" : "Варшавское шоссе, 87, Москва",
+    "latitude" : 55.653,
+    "longitude" : 37.62
+  } ],
+  "services" : [ {
+    "id" : "svc-center-caries",
+    "clinicId" : "clinic-center",
+    "name" : "Лечение кариеса",
+    "price" : 4500.00
+  }, {
+    "id" : "svc-center-clean",
+    "clinicId" : "clinic-center",
+    "name" : "Профессиональная чистка",
+    "price" : 3500.00
+  }, {
+    "id" : "svc-north-extract",
+    "clinicId" : "clinic-north",
+    "name" : "Удаление зуба",
+    "price" : 3000.00
+  }, {
+    "id" : "svc-north-clean",
+    "clinicId" : "clinic-north",
+    "name" : "Профессиональная чистка",
+    "price" : 4000.00
+  }, {
+    "id" : "svc-south-caries",
+    "clinicId" : "clinic-south",
+    "name" : "Лечение кариеса",
+    "price" : 5000.00
+  }, {
+    "id" : "svc-south-implant",
+    "clinicId" : "clinic-south",
+    "name" : "Имплантация",
+    "price" : 45000.00
+  } ],
+  "reviews" : [ {
+    "id" : "rev-north",
+    "clinicId" : "clinic-north",
+    "authorUserId" : "user-anna",
+    "rating" : 4,
+    "text" : "Приняли вовремя.",
+    "createdAt" : "2026-02-02T12:30:00Z"
+  }, {
+    "id" : "86838f65-0013-4433-8d14-b1b3b1696eb6",
+    "clinicId" : "clinic-south",
+    "authorUserId" : "user-anna",
+    "rating" : 5,
+    "text" : "с кайфом зубы полечили",
+    "createdAt" : "2026-11-14T10:45:53.040441Z"
+  }, {
+    "id" : "rev-center",
+    "clinicId" : "clinic-center",
+    "authorUserId" : "user-anna",
+    "rating" : 5,
+    "text" : "Хорошая клиника в центре.",
+    "createdAt" : "2026-11-14T10:46:10.549380Z"
+  } ]
+}

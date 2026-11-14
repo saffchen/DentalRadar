@@ -1,0 +1,13 @@
+server:
+  port: 8080
+
+app:
+  storage:
+    path: data/db.json
+  seed:
+    enabled: true
+  jwt:
+    secret: ${DENTALRADAR_JWT_SECRET:dentalradar-dev-secret-change-me-32}
+    expiration-ms: 86400000
+  cors:
+    allowed-origins: http://localhost:5173
