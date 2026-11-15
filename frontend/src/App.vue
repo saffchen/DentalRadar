@@ -16,7 +16,7 @@ function logout() {
 <template>
   <div class="app-shell">
     <header class="topbar">
-      <router-link class="brand" :to="auth.token ? home : '/login'">DentalRadar</router-link>
+      <router-link class="brand" :to="auth.token ? home : '/login'">Мой Стоматолог</router-link>
       <div v-if="auth.token" class="topbar-actions">
         <span>{{ auth.displayName }}</span>
         <button class="secondary" type="button" @click="logout">Выйти</button>

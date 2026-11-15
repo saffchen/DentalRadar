@@ -59,7 +59,7 @@ public class NominatimGeocoder implements Geocoder {
                             .queryParam("format", "json")
                             .queryParam("limit", "1")
                             .build())
-                    .header("User-Agent", "DentalRadar")
+                    .header("User-Agent", "MoiStomatolog")
                     .retrieve()
                     .body(String.class);
             return parseBody(body);
