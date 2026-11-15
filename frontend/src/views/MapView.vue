@@ -20,9 +20,11 @@ const service = ref('')
 const minRating = ref('')
 const serviceOptions = ref([])
 const clinics = ref([])
-const foundLabel = ref('')
+const foundLabel = ref('Клиники не найдены')
 const locationNote = ref('')
 const error = ref('')
+const loading = ref(true)
+const activeClinicId = ref('')
 
 const markerIcon = L.icon({
   iconUrl,
@@ -90,17 +92,55 @@ async function loadServiceOptions() {
 }
 
 async function loadClinics() {
-  const params = new URLSearchParams()
-  if (service.value) {
-    params.set('service', service.value)
+  error.value = ''
+  loading.value = true
+  try {
+    const params = new URLSearchParams()
+    if (service.value) {
+      params.set('service', service.value)
+    }
+    if (minRating.value) {
+      params.set('minRating', minRating.value)
+    }
+    const query = params.toString()
+    clinics.value = await api(`/api/clinics${query ? `?${query}` : ''}`)
+    foundLabel.value = `Найдено клиник: ${clinics.value.length}`
+    drawMarkers()
+    fitResults()
+  } finally {
+    loading.value = false
   }
-  if (minRating.value) {
-    params.set('minRating', minRating.value)
+}
+
+function fitResults() {
+  const hasFilter = Boolean(service.value || minRating.value)
+  if (!clinics.value.length || !hasFilter) {
+    return
   }
-  const query = params.toString()
-  clinics.value = await api(`/api/clinics${query ? `?${query}` : ''}`)
-  foundLabel.value = `Найдено клиник: ${clinics.value.length}`
-  drawMarkers()
+  const bounds = L.latLngBounds(clinics.value.map((clinic) => [clinic.latitude, clinic.longitude]))
+  map.fitBounds(bounds, { padding: [48, 48], maxZoom: 14 })
+}
+
+function focusClinic(clinic) {
+  activeClinicId.value = clinic.id
+  map.setView([clinic.latitude, clinic.longitude], 14)
+  const marker = markerById.get(clinic.id)
+  if (marker) {
+    openPopup(marker, clinic)
+  }
+}
+
+function visibleServices(clinic) {
+  if (!service.value) {
+    return orderedServices(clinic.services)
+  }
+  const matches = clinic.services.filter((item) => item.name === service.value)
+  return matches.length ? matches : orderedServices(clinic.services)
+}
+
+function resetFilters() {
+  service.value = ''
+  minRating.value = ''
 }
 
 function drawMarkers() {
@@ -109,13 +149,17 @@ function drawMarkers() {
   clinics.value.forEach((clinic) => {
     const marker = L.marker([clinic.latitude, clinic.longitude], { icon: markerIcon })
     marker.bindPopup(buildPopup(clinic))
-    marker.on('click', () => openPopup(marker, clinic))
+    marker.on('click', () => {
+      activeClinicId.value = clinic.id
+      openPopup(marker, clinic)
+    })
     markers.addLayer(marker)
     markerById.set(clinic.id, marker)
   })
 }
 
 async function openPopup(marker, clinic) {
+  activeClinicId.value = clinic.id
   try {
     const detail = await api(`/api/clinics/${clinic.id}`)
     marker.setPopupContent(buildPopup(clinic, detail, marker))
@@ -152,6 +196,7 @@ function reviewForm(clinicId, mine, marker, clinic) {
   const form = document.createElement('form')
   form.className = 'popup-form'
   const rating = document.createElement('select')
+  rating.setAttribute('aria-label', 'Оценка клиники')
   for (let value = 5; value >= 1; value -= 1) {
     const option = document.createElement('option')
     option.value = String(value)
@@ -159,6 +204,7 @@ function reviewForm(clinicId, mine, marker, clinic) {
     rating.append(option)
   }
   const text = document.createElement('textarea')
+  text.setAttribute('aria-label', 'Текст отзыва')
   text.required = true
   text.maxLength = 2000
   text.rows = 3
@@ -212,7 +258,7 @@ function orderedServices(services) {
 </script>
 
 <template>
-  <section class="map-page">
+  <main class="map-page">
     <div class="filters">
       <label>
         Услуга
@@ -232,10 +278,45 @@ function orderedServices(services) {
           <option value="1">1 и выше</option>
         </select>
       </label>
-      <p class="note">{{ foundLabel }}</p>
+      <button v-if="service || minRating" class="secondary reset-filters" type="button" @click="resetFilters">
+        Сбросить
+      </button>
     </div>
-    <p v-if="locationNote" class="note" style="margin: 0.5rem 1rem">{{ locationNote }}</p>
-    <p v-if="error" class="error" style="margin: 0.5rem 1rem">{{ error }}</p>
-    <div ref="mapElement" class="map-canvas"></div>
-  </section>
+    <div class="map-layout">
+      <aside class="clinic-list" aria-label="Список клиник">
+        <p class="list-count" role="status">{{ loading ? 'Загрузка клиник…' : foundLabel }}</p>
+        <p v-if="error" class="error" role="alert">{{ error }}</p>
+        <p v-if="locationNote" class="note">{{ locationNote }}</p>
+        <p v-if="!loading && !error && !clinics.length" class="note empty">
+          Клиник не найдено. Измените услугу или оценку.
+        </p>
+        <ul class="clinic-items">
+          <li v-for="clinic in clinics" :key="clinic.id">
+            <button
+              type="button"
+              class="clinic-card"
+              :class="{ active: clinic.id === activeClinicId }"
+              :aria-pressed="clinic.id === activeClinicId"
+              @click="focusClinic(clinic)"
+            >
+              <span class="clinic-name">{{ clinic.name }}</span>
+              <span class="clinic-address">{{ clinic.address }}</span>
+              <span class="clinic-rating">{{ formatRating(clinic.averageRating, clinic.reviewCount) }}</span>
+              <span class="clinic-services">
+                <span
+                  v-for="item in visibleServices(clinic)"
+                  :key="item.id"
+                  class="clinic-service"
+                  :class="{ matched: item.name === service }"
+                >
+                  {{ item.name }} — {{ formatPrice(item.price) }}
+                </span>
+              </span>
+            </button>
+          </li>
+        </ul>
+      </aside>
+      <div ref="mapElement" class="map-canvas" role="region" aria-label="Карта клиник"></div>
+    </div>
+  </main>
 </template>
