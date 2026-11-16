@@ -1,0 +1,28 @@
+services:
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: dentalradar-backend
+    environment:
+      DENTALRADAR_JWT_SECRET: dentalradar-dev-secret-change-me-32
+      APP_STORAGE_PATH: /data/db.json
+    volumes:
+      - dentalradar_data:/data
+    expose:
+      - "8080"
+    restart: unless-stopped
+
+  caddy:
+    image: caddy:2-alpine
+    container_name: dentalradar-caddy
+    depends_on:
+      - backend
+    ports:
+      - "8090:8090"
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+    restart: unless-stopped
+
+volumes:
+  dentalradar_data:
