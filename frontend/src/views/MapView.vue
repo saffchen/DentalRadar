@@ -37,8 +37,20 @@ const markerIcon = L.icon({
   shadowSize: [41, 41]
 })
 
+const userIcon = L.divIcon({
+  className: 'user-location-icon',
+  html: '<span class="user-location-dot"></span>',
+  iconSize: [18, 18],
+  iconAnchor: [9, 9]
+})
+
 let map
 let markers
+let userMarker
+let userCircle
+let userLatLng
+let locationWatchId
+let centeredOnUser = false
 const markerById = new Map()
 
 onMounted(async () => {
@@ -46,6 +58,7 @@ onMounted(async () => {
   map.attributionControl.setPrefix(false)
   maplibreGL({ style: 'https://tiles.openfreemap.org/styles/liberty' }).addTo(map)
   markers = L.layerGroup().addTo(map)
+  map.setView(MOSCOW, 11)
   locate()
   try {
     await loadServiceOptions()
@@ -56,6 +69,7 @@ onMounted(async () => {
 })
 
 onUnmounted(() => {
+  stopLocate()
   map?.remove()
 })
 
@@ -65,29 +79,101 @@ watch([service, minRating], () => {
   })
 })
 
-watch(pane, async () => {
+watch(pane, async (value) => {
   await nextTick()
   map?.invalidateSize()
+  if (value !== 'map' || !userLatLng) {
+    return
+  }
+  requestAnimationFrame(() => {
+    map?.invalidateSize()
+    centerOnUser(userLatLng)
+  })
 })
+
+function mapIsOpen() {
+  return !window.matchMedia('(max-width: 767px)').matches || pane.value === 'map'
+}
+
+function openMap() {
+  pane.value = 'map'
+  if (!userLatLng) {
+    locate()
+  }
+}
+
+function stopLocate() {
+  if (locationWatchId == null) {
+    return
+  }
+  navigator.geolocation.clearWatch(locationWatchId)
+  locationWatchId = null
+}
 
 function locate() {
   if (!navigator.geolocation) {
-    map.setView(MOSCOW, 11)
-    locationNote.value = 'Местоположение недоступно. Карта открыта на Москве.'
+    showMoscowFallback()
     return
   }
-  map.setView(MOSCOW, 11)
-  navigator.geolocation.getCurrentPosition(
+  if (locationWatchId != null) {
+    return
+  }
+  locationWatchId = navigator.geolocation.watchPosition(
     (position) => {
-      map.setView([position.coords.latitude, position.coords.longitude], 13)
+      const latlng = L.latLng(position.coords.latitude, position.coords.longitude)
+      userLatLng = latlng
+      showUser(latlng, position.coords.accuracy)
       locationNote.value = ''
+      if (mapIsOpen()) {
+        map.invalidateSize()
+        centerOnUser(latlng)
+      }
     },
     () => {
-      map.setView(MOSCOW, 11)
-      locationNote.value = 'Местоположение недоступно. Карта открыта на Москве.'
+      stopLocate()
+      if (!userLatLng) {
+        showMoscowFallback()
+      }
     },
-    { enableHighAccuracy: true, timeout: 8000 }
+    { enableHighAccuracy: true, timeout: 15000, maximumAge: 5000 }
   )
+}
+
+function showUser(latlng, accuracy) {
+  if (!userMarker) {
+    userMarker = L.marker(latlng, { icon: userIcon, interactive: false, keyboard: false, zIndexOffset: 1000 }).addTo(map)
+  } else {
+    userMarker.setLatLng(latlng)
+  }
+  if (!Number.isFinite(accuracy)) {
+    return
+  }
+  if (!userCircle) {
+    userCircle = L.circle(latlng, {
+      radius: accuracy,
+      color: '#244B68',
+      weight: 1,
+      fillColor: '#79BDE0',
+      fillOpacity: 0.25,
+      interactive: false
+    }).addTo(map)
+    return
+  }
+  userCircle.setLatLng(latlng)
+  userCircle.setRadius(accuracy)
+}
+
+function centerOnUser(latlng) {
+  if (centeredOnUser || service.value || minRating.value || !map.getSize().x) {
+    return
+  }
+  map.setView(latlng, 14)
+  centeredOnUser = true
+}
+
+function showMoscowFallback() {
+  map.setView(MOSCOW, 11)
+  locationNote.value = 'Местоположение недоступно. Карта открыта на Москве.'
 }
 
 async function loadServiceOptions() {
@@ -129,6 +215,7 @@ function fitResults() {
 
 async function focusClinic(clinic) {
   activeClinicId.value = clinic.id
+  centeredOnUser = true
   if (window.matchMedia('(max-width: 767px)').matches) {
     pane.value = 'map'
     await nextTick()
@@ -329,7 +416,8 @@ function orderedServices(services) {
       </aside>
       <div ref="mapElement" class="map-canvas" role="region" aria-label="Карта клиник"></div>
     </div>
-    <button v-if="pane === 'list'" class="map-switch" type="button" @click="pane = 'map'">Карта</button>
+    <p v-if="pane === 'map' && locationNote" class="map-geo-note" role="status">{{ locationNote }}</p>
+    <button v-if="pane === 'list'" class="map-switch" type="button" @click="openMap">Карта</button>
     <button v-else class="map-switch" type="button" @click="pane = 'list'">Список</button>
   </main>
 </template>

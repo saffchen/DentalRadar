@@ -413,21 +413,57 @@ td {
   }
 }
 
+.user-location-icon {
+  background: transparent;
+  border: 0;
+}
+
+.user-location-dot {
+  display: block;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: #2F6FED;
+  border: 3px solid #FFFFFF;
+  box-shadow: 0 0 0 6px rgba(47, 111, 237, 0.35);
+}
+
+.map-geo-note {
+  display: none;
+}
+
 @media (max-width: 767px) {
   .map-page {
     padding-bottom: calc(72px + env(safe-area-inset-bottom));
+  }
+
+  .map-page:has(.pane-map) {
+    position: fixed;
+    inset: 0;
+    z-index: 30;
+    padding-bottom: 0;
+    background: #F3F6F8;
+  }
+
+  .map-page:has(.pane-map) .filters {
+    display: none;
   }
 
   .map-layout {
     grid-template-columns: minmax(0, 1fr);
   }
 
+  .map-page:has(.pane-map) .map-layout {
+    flex: 1;
+    height: 100%;
+    min-height: 0;
+  }
+
   .map-layout.pane-list .map-canvas {
     display: none;
   }
 
-  .map-layout.pane-map .clinic-list,
-  .map-layout.pane-map .filters {
+  .map-layout.pane-map .clinic-list {
     display: none;
   }
 
@@ -436,19 +472,37 @@ td {
     border-right: 0;
   }
 
-  .map-canvas {
-    min-height: calc(100vh - 76px - env(safe-area-inset-bottom));
+  .map-page:has(.pane-map) .map-canvas {
+    height: 100%;
+    min-height: 0;
+  }
+
+  .map-page:has(.pane-map) .leaflet-bottom {
+    bottom: calc(64px + env(safe-area-inset-bottom));
   }
 
   .map-switch {
     position: fixed;
     left: 50%;
     bottom: calc(16px + env(safe-area-inset-bottom));
-    z-index: 20;
+    z-index: 40;
     display: inline-flex;
     width: auto;
     min-height: 44px;
     transform: translateX(-50%);
+  }
+
+  .map-geo-note {
+    display: block;
+    position: fixed;
+    top: calc(12px + env(safe-area-inset-top));
+    left: 52px;
+    right: 12px;
+    z-index: 40;
+    margin: 0;
+    padding: 0.6rem 0.75rem;
+    border-radius: 12px;
+    background: #FFFFFF;
   }
 
   .filters {
