@@ -1,6 +1,6 @@
 :root {
-  color: #1d2a28;
-  background: #f3efe6;
+  color: #244B68;
+  background: #F3F6F8;
   font-family: "Avenir Next", "Segoe UI", sans-serif;
   line-height: 1.45;
 }
@@ -25,8 +25,8 @@ button,
 .button {
   border: 0;
   border-radius: 12px;
-  background: #2f5d50;
-  color: #fff;
+  background: #244B68;
+  color: #FFFFFF;
   min-height: 44px;
   padding: 0.65rem 1rem;
   cursor: pointer;
@@ -41,12 +41,12 @@ button,
 
 button:hover:not(:disabled),
 .button:hover {
-  background: #0b5757;
+  background: color-mix(in srgb, #244B68 85%, #000);
 }
 
 button.secondary:hover:not(:disabled),
 .button.secondary:hover {
-  background: #e6f1ef;
+  background: color-mix(in srgb, #79BDE0 35%, #FFFFFF);
 }
 
 button:focus-visible,
@@ -54,15 +54,15 @@ button:focus-visible,
 input:focus-visible,
 select:focus-visible,
 textarea:focus-visible {
-  outline: 3px solid #0f6e6e;
+  outline: 3px solid #244B68;
   outline-offset: 2px;
 }
 
 button.secondary,
 .button.secondary {
   background: transparent;
-  color: #0f6e6e;
-  border: 1px solid #0f6e6e;
+  color: #244B68;
+  border: 1px solid #244B68;
 }
 
 button.danger {
@@ -83,9 +83,9 @@ select,
 textarea {
   width: 100%;
   min-height: 44px;
-  border: 1px solid #e2e4e3;
+  border: 1px solid #DFE6EB;
   border-radius: 12px;
-  background: #fff;
+  background: #FFFFFF;
   padding: 0.65rem 0.75rem;
 }
 
@@ -96,7 +96,7 @@ label {
 }
 
 fieldset {
-  border: 1px solid #948a7b;
+  border: 1px solid #79BDE0;
   border-radius: 8px;
   display: grid;
   gap: 0.45rem;
@@ -124,8 +124,8 @@ fieldset input {
   align-items: center;
   gap: 1rem;
   padding: 0.85rem 1.25rem;
-  background: #163331;
-  color: #f7f3ea;
+  background: #244B68;
+  color: #FFFFFF;
 }
 
 .brand {
@@ -141,12 +141,12 @@ fieldset input {
 }
 
 .topbar .secondary {
-  color: #f7f3ea;
-  border-color: rgba(247, 243, 234, 0.5);
+  color: #FFFFFF;
+  border-color: rgba(255, 255, 255, 0.5);
 }
 
 .topbar button.secondary:hover:not(:disabled) {
-  background: rgba(247, 243, 234, 0.16);
+  background: rgba(255, 255, 255, 0.16);
 }
 
 .topbar-actions {
@@ -161,8 +161,8 @@ fieldset input {
 }
 
 .panel {
-  background: #fffdf8;
-  border: 1px solid #d5c9b4;
+  background: #FFFFFF;
+  border: 1px solid #DFE6EB;
   border-radius: 16px;
   padding: 1.25rem;
 }
@@ -184,7 +184,7 @@ fieldset input {
 }
 
 .status {
-  color: #0b4f4f;
+  color: #244B68;
   margin: 0;
   font-weight: 600;
 }
@@ -202,7 +202,7 @@ fieldset input {
 }
 
 .note {
-  color: #5c675f;
+  color: color-mix(in srgb, #244B68 68%, #F3F6F8);
   margin: 0;
 }
 
@@ -237,8 +237,8 @@ h2 {
   gap: 0.75rem;
   align-items: end;
   padding: 0.75rem 1rem;
-  background: #fffdf8;
-  border-bottom: 1px solid #d5c9b4;
+  background: #FFFFFF;
+  border-bottom: 1px solid #DFE6EB;
 }
 
 .map-page {
@@ -266,14 +266,14 @@ h2 {
   align-content: start;
   gap: 0.6rem;
   padding: 1rem;
-  background: #f7f3ea;
-  border-right: 1px solid #d5c9b4;
+  background: #F3F6F8;
+  border-right: 1px solid #DFE6EB;
 }
 
 .list-count {
   margin: 0;
   font-size: 0.85rem;
-  color: #4f5a54;
+  color: color-mix(in srgb, #244B68 68%, #F3F6F8);
 }
 
 .clinic-items {
@@ -293,32 +293,32 @@ h2 {
   text-align: left;
   gap: 0.25rem;
   padding: 0.75rem 0.85rem;
-  border: 1px solid #d5c9b4;
+  border: 1px solid #DFE6EB;
   border-radius: 12px;
-  background: #fffdf8;
+  background: #FFFFFF;
   color: inherit;
   transition: background-color 0.2s, border-color 0.2s, box-shadow 0.2s;
 }
 
 .clinic-items .clinic-card:hover {
-  background: #f2f7f5;
-  border-color: #0f6e6e;
+  background: color-mix(in srgb, #79BDE0 28%, #FFFFFF);
+  border-color: #79BDE0;
 }
 
 .clinic-items .clinic-card:active {
-  background: #dcebe7;
+  background: color-mix(in srgb, #79BDE0 45%, #FFFFFF);
 }
 
 .clinic-items .clinic-card:focus-visible {
-  outline: 3px solid #0f6e6e;
+  outline: 3px solid #244B68;
   outline-offset: 2px;
 }
 
 .clinic-items .clinic-card.active,
 .clinic-items .clinic-card.active:hover {
-  background: #eaf3f1;
-  border-color: #0f6e6e;
-  box-shadow: inset 0 0 0 1px #0f6e6e;
+  background: color-mix(in srgb, #79BDE0 40%, #FFFFFF);
+  border-color: #244B68;
+  box-shadow: inset 0 0 0 1px #244B68;
 }
 
 .clinic-name {
@@ -328,7 +328,7 @@ h2 {
 .clinic-address,
 .clinic-rating {
   font-size: 0.88rem;
-  color: #4f5a54;
+  color: color-mix(in srgb, #244B68 68%, #F3F6F8);
 }
 
 .clinic-services {
@@ -339,11 +339,11 @@ h2 {
 
 .clinic-service {
   font-size: 0.86rem;
-  color: #4f5a54;
+  color: color-mix(in srgb, #244B68 68%, #F3F6F8);
 }
 
 .clinic-service.matched {
-  color: #0b4f4f;
+  color: #244B68;
   font-weight: 600;
 }
 
@@ -389,7 +389,7 @@ th,
 td {
   text-align: left;
   padding: 0.55rem 0.35rem;
-  border-bottom: 1px solid #e6ddcd;
+  border-bottom: 1px solid #DFE6EB;
   vertical-align: top;
 }
 
@@ -398,7 +398,7 @@ td {
 }
 
 .review {
-  border-top: 1px solid #eee6da;
+  border-top: 1px solid #DFE6EB;
   padding: 0.8rem 0;
 }
 
@@ -539,7 +539,7 @@ td {
 
   .table-wrap tr {
     padding: 0.6rem 0;
-    border-bottom: 1px solid #e6ddcd;
+    border-bottom: 1px solid #DFE6EB;
   }
 
   .table-wrap td {

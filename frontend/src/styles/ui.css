@@ -99,7 +99,7 @@ h2 { font-size: 20px; line-height: 28px; font-weight: var(--weight-semibold); }
   display: grid;
   place-items: center;
   border-radius: var(--radius-sm);
-  background: #e7f6f0;
+  background: color-mix(in srgb, #79BDE0 35%, #FFFFFF);
   color: var(--color-primary);
 }
 .clinic-thumb { width: 84px; height: 84px; }
@@ -174,14 +174,14 @@ h2 { font-size: 20px; line-height: 28px; font-weight: var(--weight-semibold); }
   display: block;
   height: 112px;
   border-radius: var(--radius);
-  background: linear-gradient(90deg, #eef1f0, #f7f8f7, #eef1f0);
+  background: linear-gradient(90deg, #DFE6EB, #F3F6F8, #DFE6EB);
 }
 .skeleton-card.tall { height: 220px; }
 .sheet-backdrop {
   position: fixed;
   inset: 0;
   z-index: var(--z-sheet);
-  background: rgba(32, 43, 41, 0.35);
+  background: rgba(36, 75, 104, 0.35);
   display: grid;
   align-items: end;
 }
