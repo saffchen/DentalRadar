@@ -45,7 +45,7 @@ public class SecurityConfiguration {
                 .requestMatchers("/api/clinic/**").hasRole("CLINIC")
                 .requestMatchers(HttpMethod.PUT, "/api/clinics/*/reviews").hasRole("USER")
                 .requestMatchers(HttpMethod.GET, "/api/clinics", "/api/clinics/**").hasRole("USER")
-                .requestMatchers(HttpMethod.GET, "/", "/index.html", "/assets/**", "/login", "/register", "/map", "/clinic", "/manifest.webmanifest", "/sw.js", "/icon.svg", "/offline.html").permitAll()
+                .requestMatchers(HttpMethod.GET, "/", "/index.html", "/assets/**", "/login", "/register", "/map", "/clinic", "/manifest.webmanifest", "/sw.js", "/icon.jpg", "/offline.html").permitAll()
                 .anyRequest().authenticated()
         );
         http.headers(Customizer.withDefaults());

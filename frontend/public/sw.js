@@ -1,4 +1,4 @@
-const SHELL = ['/', '/offline.html', '/manifest.webmanifest', '/icon.svg']
+const SHELL = ['/', '/offline.html', '/manifest.webmanifest', '/icon.jpg']
 
 self.addEventListener('install', (event) => {
   event.waitUntil(caches.open('moy-shell-v1').then((cache) => cache.addAll(SHELL)))
